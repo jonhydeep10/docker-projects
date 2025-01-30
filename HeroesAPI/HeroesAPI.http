@@ -1,0 +1,28 @@
+# @HeroesAPI_HostAddress = http://localhost:5049
+@HeroesAPI_HostAddress = http://localhost:5051
+
+
+GET {{HeroesAPI_HostAddress}}/api/heroes
+Accept: application/json
+
+###
+
+POST {{HeroesAPI_HostAddress}}/api/heroes
+Content-Type: application/json
+
+{
+    "name": "Goku",
+    "alterego": "Goku",
+    "description": "Sayajin que proteje la tierra"
+}
+
+###
+
+POST {{HeroesAPI_HostAddress}}/api/heroes
+Content-Type: application/json
+
+{
+    "name": "Calvo con Capa",
+    "alterego": "Saitama",
+    "description": "Heroe clase A"
+}

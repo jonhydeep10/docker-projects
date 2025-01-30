@@ -1,0 +1,68 @@
+services: 
+  db:
+    image: mcr.microsoft.com/azure-sql-edge:latest
+    environment: 
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Jo1023hquarksoft$
+    volumes:
+      - db-data:/var/opt/mssql      
+    networks:
+      - tour-of-heroes-vnet
+  
+  api: 
+    # Si el nombre del archivo docker es el default 'dockerfile' solo con el build funciona, pero si no se debe definir el
+    # el contexto y el nombre del archivo
+    # build: HeroesAPI
+    depends_on:
+      - db
+    build:
+      context: HeroesAPI
+      dockerfile: V3.Dockerfile
+    develop:
+      watch:
+        - action: rebuild
+          path: HeroesAPI      
+    environment:
+      - ConnectionStrings__HeroDbConnection2=Server=db,1433;Database=HeroesDb;User ID=sa;Password=Jo1023hquarksoft$;Encrypt=false;MultipleActiveResultSets=true; 
+    ports: 
+      - 5051:5000
+    networks:
+      - tour-of-heroes-vnet      
+  
+  web:
+    depends_on:
+      - api
+    build:
+      context: TourOfHeroes
+      dockerfile: Edge.Dockerfile
+    develop:
+      watch:
+        - action: rebuild
+          path: TourOfHeroes
+    ports: 
+      - 8080:80
+    networks:
+      - tour-of-heroes-vnet      
+
+  fake-calls:
+    depends_on:
+      - api
+    image: alpine/curl:latest
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        sleep 5
+        while true; do
+          curl -o /dev/null -s -w "%{http_code}\n" "http://api:5000/api/heroes" || true
+          sleep 0.5
+        done
+    networks:
+      - tour-of-heroes-vnet
+    profiles: [debug]
+
+networks:
+  tour-of-heroes-vnet:	
+
+volumes:
+  db-data:

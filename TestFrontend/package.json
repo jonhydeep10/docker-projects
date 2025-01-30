@@ -1,0 +1,21 @@
+{
+  "name": "testfrontend",
+  "version": "1.0.0",
+  "description": "Test express",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "jbarraza",
+  "license": "ISC",
+  "keywords": [
+    "express",
+    "http",
+    "logger",
+    "middleware"
+  ],
+  "dependencies": {
+    "express": "^4.21.1",
+    "morgan": "^1.10.0"
+  }
+}
