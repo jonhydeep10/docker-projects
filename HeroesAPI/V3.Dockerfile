@@ -5,8 +5,8 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 
-LABEL org.opencontainers.image.source=https://github.com/jonhydeep10/docker-images
-LABEL org.opencontainers.image.description="Mis imagenes docker"
+LABEL org.opencontainers.image.source=https://github.com/jonhydeep10/docker-projects
+LABEL org.opencontainers.image.description="Mis proyectos docker"
 LABEL org.opencontainers.image.license="MIT"
 
 WORKDIR /app
